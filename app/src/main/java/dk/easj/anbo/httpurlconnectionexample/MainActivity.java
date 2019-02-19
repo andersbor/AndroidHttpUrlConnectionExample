@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +26,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
+        /*
+        try {
+            // NetworkOnMainThreadException
+            Bitmap bitmap = downloadImage("http://anbo-easj.dk/cv/andersBorjesson.jpg");
+            ImageView img = findViewById(R.id.mainImageView);
+            img.setImageBitmap(bitmap);
+        } catch (IOException ex) {
+            Log.d(LOG_TAG, ex.getMessage());
+        }*/
+
         DownloadImageTask imageTask = new DownloadImageTask();
         imageTask.execute("http://anbo-easj.dk/cv/andersBorjesson.jpg");
 
@@ -79,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String text) {
+            /*
+            WebView webView = findViewById(R.id.mainWebView);
+            String encodedHtml = Base64.encodeToString(text.getBytes(),
+                    Base64.NO_PADDING);
+            webView.loadData(encodedHtml, "text/html", "base64");
+            */
+
             TextView view = findViewById(R.id.mainHtmlTextView);
             view.setText(text);
         }
